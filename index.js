@@ -1,22 +1,25 @@
 const badecar = formatMessage => ({
-
     name: '德中智慧小車',
     extensionId: 'badecar',
-    version: '0.2.0',
+
+    version: '0.1.0',
 
     supportDevice: ['arduinoEsp32'],
     author: '八德國中 謝偉欽',
 
     iconURL: `assets/badecar.png`,
 
-    description: '德中智慧小車 基本控制模組（v02）',
+    description: '德中智慧小車 初始化模組（最小可用版本）',
+
     featured: true,
 
     blocks: 'blocks.js',
     generator: 'generator.js',
     toolbox: 'toolbox.js',
     translations: 'translations.js',
-    library: 'lib',
+    msg: 'msg.json',
+
+    categoryId: 'badecar',
 
     official: false,
     tags: ['shield'],
