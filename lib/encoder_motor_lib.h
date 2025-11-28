@@ -1,60 +1,21 @@
-#pragma once
+#pragma once      // 防止重複 include
 
 #ifndef _EM_ENCODER_MOTOR_LIB_H_
 #define _EM_ENCODER_MOTOR_LIB_H_
-
 /**
  * @file encoder_motor_lib.h
  */
 
-#include <WString.h>
-
+#include <WString.h>   // Arduino String 類別
 namespace em {
 namespace esp_encoder_motor_lib {
-/**
- * @~Chinese
- * @brief 主版本号。
- */
-/**
- * @~English
- * @brief Major version number.
- */
-constexpr uint8_t kVersionMajor = 1;
-
-/**
- * @~Chinese
- * @brief 次版本号。
- */
-/**
- * @~English
- * @brief Minor version number.
- */
-constexpr uint8_t kVersionMinor = 1;
-
-/**
- * @~Chinese
- * @brief 修订版本号。
- */
-/**
- * @~English
- * @brief Patch version number.
- */
-constexpr uint8_t kVersionPatch = 1;
-
-/**
- * @~Chinese
- * @brief 获取版本号字符串。
- * @return 版本号字符串，格式为 major.minor.patch。
- */
-/**
- * @~English
- * @brief Get the version number string.
- * @return The version number string in the format of major.minor.patch.
- */
+constexpr uint8_t kVersionMajor = 1;   // 主版本號
+constexpr uint8_t kVersionMinor = 1;   // 次版本號
+constexpr uint8_t kVersionPatch = 1;   // 修訂號（patch）
 String Version() {
   return String(kVersionMajor) + '.' + kVersionMinor + '.' + kVersionPatch;
 }
+Serial.println(em::esp_encoder_motor_lib::Version());
 }  // namespace esp_encoder_motor_lib
 }  // namespace em
-
-#endif
+#endif  // _EM_ENCODER_MOTOR_LIB_H_
