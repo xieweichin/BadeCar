@@ -2,10 +2,8 @@
  * @file motor.cpp
  */
 
-#include "motor.h"
-
-#include <Arduino.h>
-
+#include "motor.h"       // Motor 類別的宣告
+#include <Arduino.h>     // LEDC（PWM）與 pinMode 等函式
 namespace em {
 
 #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
@@ -13,7 +11,6 @@ Motor::Motor(const uint8_t positive_pin, const uint8_t negative_pin)
     : positive_pin_(positive_pin), negative_pin_(negative_pin) {
 }
 #endif
-
 Motor::Motor(const uint8_t positive_pin,
              const uint8_t positive_pin_ledc_channel,
              const uint8_t negative_pin,
@@ -23,10 +20,12 @@ Motor::Motor(const uint8_t positive_pin,
       positive_pin_ledc_channel_(positive_pin_ledc_channel),
       negative_pin_ledc_channel_(negative_pin_ledc_channel) {
 }
-
 void Motor::Init() {
 #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
   if (positive_pin_ledc_channel_ != 0xFF) {
+    // -------------------------------------------------
+    // 新 API：使用 ledcAttachChannel()
+    // -------------------------------------------------
     ledcAttachChannel(positive_pin_, kPwmFrequency, kPwmResolution, positive_pin_ledc_channel_);
   } else {
     ledcAttach(positive_pin_, kPwmFrequency, kPwmResolution);
@@ -45,7 +44,6 @@ void Motor::Init() {
 #endif
   Stop();
 }
-
 void Motor::RunPwmDuty(const int16_t pwm_duty) {
   pwm_duty_ = constrain(pwm_duty, -kMaxPwmDuty, kMaxPwmDuty);
   if (pwm_duty_ >= 0) {
@@ -56,7 +54,8 @@ void Motor::RunPwmDuty(const int16_t pwm_duty) {
     ledcWrite(positive_pin_ledc_channel_, pwm_duty_);
     ledcWrite(negative_pin_ledc_channel_, 0);
 #endif
-  } else {
+  } 
+  else {
 #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
     ledcWrite(positive_pin_, 0);
     ledcWrite(negative_pin_, -pwm_duty_);
@@ -66,11 +65,9 @@ void Motor::RunPwmDuty(const int16_t pwm_duty) {
 #endif
   }
 }
-
 int16_t Motor::PwmDuty() const {
   return pwm_duty_;
 }
-
 void Motor::Stop() {
   pwm_duty_ = 0;
 #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
@@ -81,5 +78,3 @@ void Motor::Stop() {
   ledcWrite(negative_pin_ledc_channel_, kMaxPwmDuty);
 #endif
 }
-
-}  // namespace em
